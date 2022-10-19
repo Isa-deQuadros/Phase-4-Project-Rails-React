@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
 const Container =styled.div`
-color: 181D2B
+    color: 181D2B;
 
     .green_button{
         background-color: #00FF00
@@ -153,11 +153,10 @@ function WildCardPopUp({playerTurn, setPlayerTurn, clockWise, displayWildCard, p
     return (
         <Container>
                 <h4> Choose the Next Color: </h4>
-                <button className="why_button" onClick={()=> {resetWildCardPopUp(); setPlayedCardGreen()} }> GREEN </button>
+                <button className="green_button" onClick={()=> {resetWildCardPopUp(); setPlayedCardGreen()} }> GREEN </button>
                 <button className="red_button" onClick={()=> {resetWildCardPopUp(); setPlayedCardStateRed() } }> RED </button> 
                 <button className="blue_button" onClick={()=> {resetWildCardPopUp(); setPlayedCardStateBlue() } }> BLUE </button> 
                 <button className="pink_button" onClick={()=> {resetWildCardPopUp(); setPlayedCardStatePink() } }> PINK </button> 
-                {/* <button className="why_butto" onClick={()=> {resetWildCardPopUp() } }> WHY </button>   */}
         </Container>
     )
 }

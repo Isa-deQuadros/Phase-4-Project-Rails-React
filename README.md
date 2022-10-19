@@ -3,7 +3,7 @@
 ## Description
 
 This project is scaffolded so that you can build a React frontend and Rails
-backend together, and easily deploy them to Heroku.
+backend together. It is a group take on the classic card game UNO. Within this app, a user can navigate to the game page, and play a game of Uno, or UM as we have called it against themselves in a group of four. 
 
 ## Requirements
 

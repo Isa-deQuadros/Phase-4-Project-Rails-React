@@ -74,22 +74,11 @@ import illusionist_0 from '../cards/Red_0.png'
 
 
 function Player4Card({playerTurn, player4WildCard, draw4WildPlayer4, player4Add2, player4Turn, player4Skip, player4HandleReverse, displayCard, player4HandState, seethecards, card}){
-    
-
-//  for start state 
-// if ( myHandState.length > 7 && player2HandState > 7 && player3HandState > 7 && player4HandState > 7)
-//     return setStartState(true)
-
 
 
     const [testcard, setTestCard] = useState({"emblem": "druid", "number": "5" })
 
     function cardImageAssignment(){
-        // console.log("THE HAND:", eachCard)
-        
-        // if (myHandState > 1 && player2HandState > 1 && player3HandState > 1 && player4HandState > 1)
-        // if (myHandState > 0)  
-  
         return player4HandState.map( eachCard =>{
             
             if (eachCard.emblem === "thief_0")
@@ -184,7 +173,7 @@ function Player4Card({playerTurn, player4WildCard, draw4WildPlayer4, player4Add2
         else if (eachCard.emblem === "illusionist_11")
             return <img onClick={()=>player4Turn(eachCard)} src={illusionist_11} height={100} width={75} alt=" illusionist 11"/>
         else if (eachCard.emblem === "illusionist_12")      
-              return <img onClick={()=>player4Turn(eachCard)} src={illusionist_12} height={100} width={75} alt=" illusionist 12"/>
+            return <img onClick={()=>player4Turn(eachCard)} src={illusionist_12} height={100} width={75} alt=" illusionist 12"/>
         else if (eachCard.emblem === "illusionist_skip")
             return <img onClick={()=>player4Skip(eachCard)} src={illusionist_skip} height={100} width={75}  alt=" illusionist skip"/>
         else if (eachCard.emblem === "illusionist_reverse")
@@ -250,13 +239,7 @@ function Player4Card({playerTurn, player4WildCard, draw4WildPlayer4, player4Add2
         else 
             return backofCardsForState()
 }
-// console.log("Player4 hand state in card component:", player4HandState)
-// console.log("player 2 state in card component:", player2HandState)
-// console.log("player 3 state in card component:", player3HandState)
-// console.log("player 4 state in card component:", player4HandState)
 
-    // if card.name === number 
-    //     return nextturn()
     return(
         <>{displayCard ? playingStateWithCard() : assigningBackofCard} </>
         

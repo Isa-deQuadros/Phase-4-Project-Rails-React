@@ -75,17 +75,10 @@ import illusionist_0 from '../cards/Red_0.png'
 
 function Player1Card({ playerTurn, puttingDownCardsP1,player1WildCard, draw4WildPlayer1, player1Turn, player1Skip, player1HandleReverse, player1Add2, emblem, value, eachCard, myHandState, displayCard, card}){
     
-
-    // const [testcard, setTestCard] = useState({"emblem": "druid", "number": "5" })
-
     function cardImageAssignment(){
-        // console.log("THE HAND:", eachCard)
-        
-        // if (myHandState > 1 && player2HandState > 1 && player3HandState > 1 && player4HandState > 1)
-        // if (myHandState > 0)  
-  
+
         return myHandState.map( eachCard =>{
-         
+
         if (eachCard.emblem === "thief_0")
             return <img onClick={()=>player1Turn(eachCard)}src={thief_0} height={100} width={75} alt="thief 0"/>
         else if (eachCard.emblem === "thief_1")
@@ -178,7 +171,7 @@ function Player1Card({ playerTurn, puttingDownCardsP1,player1WildCard, draw4Wild
         else if (eachCard.emblem === "illusionist_11")
             return <img onClick={()=>player1Turn(eachCard)} src={illusionist_11} height={100} width={75} alt=" illusionist 11"/>
         else if (eachCard.emblem === "illusionist_12")      
-              return <img onClick={()=>player1Turn(eachCard)} src={illusionist_12} height={100} width={75} alt=" illusionist 12"/>
+            return <img onClick={()=>player1Turn(eachCard)} src={illusionist_12} height={100} width={75} alt=" illusionist 12"/>
         else if (eachCard.emblem === "illusionist_skip")
             return <img onClick={()=>player1Skip(eachCard)} src={illusionist_skip} height={100} width={75}  alt=" illusionist skip"/>
         else if (eachCard.emblem === "illusionist_reverse")
@@ -223,7 +216,6 @@ function Player1Card({ playerTurn, puttingDownCardsP1,player1WildCard, draw4Wild
             return <img onClick={()=> {draw4WildPlayer1(eachCard)}} src={wild_draw4} height={100} width={75} alt=" wild draw 4"/>
         else if (eachCard.emblem === "wild")
             return <img onClick={()=>{player1WildCard(eachCard)}} src={wild} height={100} width={75} alt="wild"/>     
-        // })
         else 
             console.log("Player 1 messed up card:", eachCard)
         
@@ -232,7 +224,7 @@ function Player1Card({ playerTurn, puttingDownCardsP1,player1WildCard, draw4Wild
 
     function assigningBackofCard(){
         
-             return < img src={backOfCard} height={100} width={75} alt="This is the back" /> }
+            return < img src={backOfCard} height={100} width={75} alt="This is the back" /> }
     
     function backofCardsForState(){
         return myHandState.map((eachCard)=> assigningBackofCard(eachCard))

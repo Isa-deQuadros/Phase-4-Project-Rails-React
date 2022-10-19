@@ -76,14 +76,7 @@ import illusionist_0 from '../cards/Red_0.png'
 function Player2Card({playerTurn, player2WildCard, draw4WildPlayer2, player2Turn, player2Skip, player2HandleReverse, player2Add2, displayCard, player2HandState, seethecards, card}){
     
 
-
-    const [testcard, setTestCard] = useState({"emblem": "druid", "number": "5" })
-
     function cardImageAssignment(){
-        // console.log("THE HAND:", eachCard)
-        
-        // if (myHandState > 1 && player2HandState > 1 && player3HandState > 1 && player4HandState > 1)
-        // if (myHandState > 0)  
   
         return player2HandState.map( eachCard =>{
             
@@ -224,7 +217,6 @@ function Player2Card({playerTurn, player2WildCard, draw4WildPlayer2, player2Turn
             return <img onClick={()=> {draw4WildPlayer2(eachCard)}} src={wild_draw4} height={100} width={75} alt=" wild draw 4"/>
         else if (eachCard.emblem === "wild")
             return <img onClick={()=>{player2WildCard(eachCard)}} src={wild} height={100} width={75} alt="wild"/>     
-        // })
         else 
             console.log("Player 2 messed up card:", eachCard)
         

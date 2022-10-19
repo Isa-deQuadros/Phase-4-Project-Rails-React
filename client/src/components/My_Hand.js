@@ -13,14 +13,12 @@ function PlayerHand({ completeDeck={completeDeck},
     playerTurn
 }){
 
-    // console.log("My hand state in my hand component:", myHandState)
     
     
  return(
     <>
         <h2 className="player-distinction"> My Hand </h2>
         <div className="player-left">
-        {/* {displayCard ?  */}
        
         <Player1_Card 
             onClick={myHandState} 
@@ -36,7 +34,6 @@ function PlayerHand({ completeDeck={completeDeck},
             player1WildCard={player1WildCard} 
             playerTurn={playerTurn}/> 
             
-        {/* :null}    */}
         </div>
     </>
  )
