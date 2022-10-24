@@ -1,14 +1,58 @@
 import styled from "styled-components";
-// import SignUp from "./Sign_up_Form";
-// import LoginForm from "./Log_in_Form";
-import NavBar from "./Nav_bar";
+import { Link } from "react-router-dom";
 
-const Container = styled.div``;
+const Container = styled.div`
+  .border{
+    border-top-color: #F00B1C;
+    border-right: #627FFF;
+    border-left: #3BE43B;
+    border-bottom: #D659E5;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 20px;
+    height: 500px;
+    margin: 40px 400px;
+    position: absolute;
+    width: 600px;
+  }
 
-function LandingPage({ setCurrentPlayer }) {
+  .text{
+    align-items: center;
+    color: white;
+    padding: 180px 0px;
+    text-align: center ;
+  }
+  h1{ font-size: 70px;}
+  h2{ font-size: 27px;}
+`
+const StyledLink = styled(Link)`
+  border: 2px solid white;
+  border-radius: 25px;
+  color: #F00B1C;
+  display: flex;
+  justify-content: center;
+  margin: 10px auto;
+  padding: 10px 15px;
+  text-decoration: none;
+  width: fit-content;
+  font-size: 30px;
+
+  &:hover{
+    background-color: #3BE43B;
+    color: white;
+  }
+`
+
+function LandingPage() {
+
   return (
     <Container>
-      <h4 className="text"> UM a Game of Skill, Luck, and endless Patience </h4>
+        <div className="border"></div>
+        <div className="text" >
+          <h1> Welcome to UM</h1>
+          <h2> A game of skill, luck, and patience.</h2>
+        </div>
+        <StyledLink to="/game"> Start Playing </StyledLink>
     </Container>
   );
 }

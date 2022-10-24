@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
+import {Link} from 'react-router-dom'
 
 import My_Hand from "./My_Hand";
 import Other_Player2 from './other_players_hands/Other_Player2'
@@ -14,6 +15,7 @@ import backOfCard from '../cards/Back_of_Card.png'
 const Container = styled.div`
 
 `
+const StyledLink=styled(Link)``
 
 
 function ActiveGame(){
@@ -827,13 +829,12 @@ function ActiveGame(){
     
 
     return(
-        <div className="container">
-            <h3 className="text"> Its my turn: {playerTurn} </h3> 
+        <Container>
+            <h3> It's {playerTurn}'s turn </h3> 
                 <button className="game-buttons" onClick={startingTheGame}>Start Game</button>
                 <button className="game-buttons" onClick={startingHands}> Distribute First Hand </button>
         
             
-            <div className="player-hands">
                     
                         <My_Hand 
                         playerTurn={playerTurn}
@@ -851,7 +852,6 @@ function ActiveGame(){
         
             
 
-                <div className="hand-middle">
                     
                         <Other_Player2 
                         playerTurn={playerTurn}
@@ -865,8 +865,8 @@ function ActiveGame(){
                         player2Add2={player2Add2}
                         draw4WildPlayer2={draw4WildPlayer2}/>
                     
-
-                    <h6 className="player-distinction"> Played Cards</h6>
+                    <div className="card_Decks"> 
+                    <h6 > Played Cards</h6>
                         <PlayedCardPile 
                         playedCardsState={playedCards} 
                         displayCard={displayCard} 
@@ -877,14 +877,13 @@ function ActiveGame(){
                     <div>
                         <img className="game-buttons" onClick={ addsCardToHand} src={backOfCard} alt="the back the cards" height={100} width={75}/>
                     </div>
+                    </div>
 
-                </div>
 
 
                     
                 
 
-                <div className="hand-middle">
                         <Other_Player3 
                         playerTurn={playerTurn}
                         player3WildCard={player3WildCard}
@@ -896,7 +895,6 @@ function ActiveGame(){
                         player3HandState={player3HandState}
                         player3Add2={player3Add2}
                         draw4WildPlayer3={draw4WildPlayer3}/>
-                </div>
             
                 
                     <Other_Player4 
@@ -910,10 +908,9 @@ function ActiveGame(){
                     player4HandState={player4HandState}
                     player4Add2={player4Add2} 
                     draw4WildPlayer4={draw4WildPlayer4}/>
-            </div>
 
-            
-        </div>
+            <StyledLink to="/"> Exit Game </StyledLink>
+        </Container>
     )
 }
 export default ActiveGame;
