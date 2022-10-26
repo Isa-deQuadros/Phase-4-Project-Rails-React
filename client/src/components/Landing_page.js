@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 
 const Container = styled.div`
   .border{
-    border-top-color: #F00B1C;
-    border-right: #627FFF;
-    border-left: #3BE43B;
-    border-bottom: #D659E5;
+    border-top-color: #F00B1C; //red
+    border-right: #627FFF; // blue
+    border-left: #3BE43B; // green
+    border-bottom: #D659E5; // pink
     border-radius: 50%;
     border-style: solid;
     border-width: 20px;
@@ -49,7 +49,7 @@ function LandingPage() {
     <Container>
         <div className="border"></div>
         <div className="text" >
-          <h1> Welcome to UM</h1>
+          <h1> Welcome to UNO</h1>
           <h2> A game of skill, luck, and patience.</h2>
         </div>
         <StyledLink to="/game"> Start Playing </StyledLink>

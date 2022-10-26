@@ -2,21 +2,23 @@ import styled from "styled-components"
 
 const Container =styled.div`
     color: 181D2B;
+    z-index: 2;
 
     .green_button{
-        background-color: #00FF00
+        background-color: #00FF00;
+        border: 2px solid white;
     }
     .red_button{
-        background-color: #F00B1C
+        background-color: #F00B1C;
+        border: 2px solid white;
     }
     .blue_button{
-        background-color: #627FFF
+        background-color: #627FFF;
+        border: 2px solid white;
     }
     .pink_button{
-        background-color: #D659E5
-    }
-    .why_button{
-        background-color: #00FF00
+        background-color: #D659E5;
+        border: 2px solid white;
     }
 
 `

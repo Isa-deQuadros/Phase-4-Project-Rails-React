@@ -7,5 +7,5 @@ html, body, #root {
 #root {
     display: flex;
     flex-direction: column;
-    background-color: #181D2B;;
+    background-color: #181D2B;
 }

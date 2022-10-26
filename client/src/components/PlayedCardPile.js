@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import styled from 'styled-components'
 
 import backOfCard from '../cards/Back_of_Card.png'
 import wild from '../cards/Wild.png'
@@ -72,18 +73,15 @@ import illusionist_2 from '../cards/Red_2.png'
 import illusionist_1 from '../cards/Red_1.png'
 import illusionist_0 from '../cards/Red_0.png'
 
-
+const Container=styled.div``
 function PlayedCardPile({playedCardsState, completeDeck, displayCard}){
     
 
     function cardImageAssignment(){
-        // console.log("THE HAND:", eachCard)
-    
-  
         let eachCard = playedCardsState[0]
             if (typeof(eachCard) === "undefined")
             { eachCard = playedCardsState[1]}
-         if (eachCard) {
+        if (eachCard) {
 
             
         if (eachCard.emblem === "thief_0")
@@ -178,7 +176,7 @@ function PlayedCardPile({playedCardsState, completeDeck, displayCard}){
         else if (eachCard.emblem === "illusionist_11")
             return <img  src={illusionist_11} height={100} width={75} alt=" illusionist 11"/>
         else if (eachCard.emblem === "illusionist_12")      
-              return <img  src={illusionist_12} height={100} width={75} alt=" illusionist 12"/>
+            return <img  src={illusionist_12} height={100} width={75} alt=" illusionist 12"/>
         else if (eachCard.emblem === "illusionist_skip")
             return <img  src={illusionist_skip} height={100} width={75}  alt=" illusionist skip"/>
         else if (eachCard.emblem === "illusionist_reverse")
@@ -223,43 +221,18 @@ function PlayedCardPile({playedCardsState, completeDeck, displayCard}){
             return <img src={wild_draw4} height={100} width={75} alt=" wild draw 4"/>
         else if (eachCard.emblem === "wild")
             return <img src={wild} height={100} width={75} alt="wild"/>     
-        // })
         else 
             console.log("Player 1 messed up card:", eachCard)
         
     }}
-    
-    // function showingTopCard(){
-        
-    //     return playedCardsState.map( eachCard =>{
-    //     if(eachCard.emblem === "thief_add2"|| eachCard.emblem === "bard_add2" || eachCard.emblem === "druid_add2" || eachCard.emblem === "illusionist_add2" || eachCard.emblem ==="wild_draw4")
-    //         return eachCard
-    //     else 
-    //         return PlayedCardPile[0]
-    // })}
-    //  the showing card logic is also how we could eventually stack add2s
 
-    function assigningBackofCard(){
-    
-        return < img src={backOfCard} height={100} width={75} alt="This is the back" /> }
-    // }
-// console.log("my hand state in card component:", myHandState)
-// console.log("player 2 state in card component:", player2HandState)
-// console.log("player 3 state in card component:", player3HandState)
-// console.log("player 4 state in card component:", player4HandState)
+    function assigningBackofCard(){return < img src={backOfCard} height={100} width={75} alt="This is the back" /> }
 
-   console.log("displayCard:", displayCard)
-     
-     return(
-    
-         <>
+console.log("displayCard:", displayCard)
+    return(
+        <Container>
             {cardImageAssignment()}
-         </>
-         
-
-     )
-     
-            //  assigningBackofCard()  
-            // {displayCard ? cardImageAssignment() && showingTopCard() : assigningBackofCard}
+        </Container>
+    )
 }
 export default PlayedCardPile;

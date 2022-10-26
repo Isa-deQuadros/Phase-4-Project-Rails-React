@@ -14,26 +14,23 @@ function Other_Player3({player3HandState,
 
 }){
 
-    return( <>
-        
-       
-        <div className="player-bottom">
-            <Player3_Card 
-              
-                draw4WildPlayer3={draw4WildPlayer3}
-                player3Add2={player3Add2} 
-                player3Turn={player3Turn} 
-                player3Skip={player3Skip} 
-                player3HandleReverse={player3HandleReverse} 
-                displayCard={displayCard} onClick={player3HandState} 
-                card={completeDeck} 
-                dontseethecards={dontSeeTheCards} 
-                player3HandState={player3HandState}
-                player3WildCard={player3WildCard}
-                playerTurn={playerTurn}
+    return( 
+    <>  
+        <h2> Player 3 </h2> 
+        <Player3_Card 
+            draw4WildPlayer3={draw4WildPlayer3}
+            player3Add2={player3Add2} 
+            player3Turn={player3Turn} 
+            player3Skip={player3Skip} 
+            player3HandleReverse={player3HandleReverse} 
+            displayCard={displayCard} onClick={player3HandState} 
+            card={completeDeck} 
+            dontseethecards={dontSeeTheCards} 
+            player3HandState={player3HandState}
+            player3WildCard={player3WildCard}
+            playerTurn={playerTurn}
             />
-        </div>
-        <h2> Player 3 Hand </h2> 
+        
     </>
     )
 }

@@ -9,21 +9,134 @@ import Other_Player4 from './other_players_hands/Other_Player4'
 import PlayedCardPile from './PlayedCardPile' 
 import WildCardPopUp from './WildCardComponent'
 import backOfCard from '../cards/Back_of_Card.png'
+import turnDirection from '../cards/clockwise-arrows.png'
+import counterDirection from '../cards/counter-arrows.png'
 
 
 
 const Container = styled.div`
+    color: white;
+    background-color: #181D2B;
+    h3{ 
+        text-align: center;
+        font-size: 30px;
+    }
+    .clockwise-turn-direction{
+        height: 430px;
+        width: 520px;
+        animation-name: spin;
+        animation-duration: 7900ms;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        z-index: 1;
+        position: absolute;
+        margin: -127px 464px;
+        opacity: 30%
+    }
+    @keyframes spin{
+        from {transform:rotate(0deg);}
+        to {transform:rotate(360deg);}
+    }
+    .counter-turn-direction{
+        height: 430px;
+        width: 520px;
+        animation-name: reverse-spin;
+        animation-duration: 7900ms;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        z-index: 1;
+        position: absolute;
+        margin: -127px 464px;
+        opacity: 30%
+    }
+    @keyframes reverse-spin{
+        from {transform:rotate(0deg);}
+        to {transform:rotate(-360deg);}
+    }
 
+    button{
+        border: 2px solid red;
+        border-radius: 25px;
+        font-size: 15px;
+        height: 25px;
+        margin: 0px 30px 0px 30px;
+        width: 150px;
+        z-index: 2;
+    }
+    .game-buttons{
+        display: flex;
+        justify-content: center;
+    }
+
+    .top-hands{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        margin: 0px 28px;
+        height: 300px;
+    }
+    .player1{
+        grid-column: 1;
+        overflow:auto;
+    }
+    .player2{
+        grid-column: 3;
+        overflow:auto;
+    }
+    .bottom-hands{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        height: 300px;
+        margin: 0px 28px;
+    }
+    .player3{
+        grid-column:3;
+        overflow:auto;
+    }
+    .player4{
+        grid-column: 1;
+        overflow:auto;
+    }
+    .deck-titles{
+        display: flex;
+        justify-content: center;
+        z-index: 2;
+    }
+    h6{
+        font-size: 20px;
+        margin: 0px 30px;
+    }
+    .decks{
+        display: flex;
+        justify-content: center;
+        z-index: 2;
+    }
+    .piles{ 
+        margin: 20px 50px;
+        z-index: 2;
+    }
 `
-const StyledLink=styled(Link)``
-
+const StyledLink=styled(Link)`
+    border: 2px solid red;
+    border-radius: 14px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    margin: 0px 30px 0px 0px;
+    padding: 8px 10px;
+    position: absolute;
+    right: 30px;
+    top: 30px;
+    text-decoration: none;
+    width: fit-content;
+    &:hover{
+        background-color: #F00B1C;
+        color: black;
+    }
+`
 
 function ActiveGame(){
 
-
     const players = ["player_1", "player_2", "player_3", "player_4"]
-
-
     const [playerTurn, setPlayerTurn] = useState(players[0]) 
     const [clockWise, setClockwise]= useState(true)
     const [initialTurn, setInitialTurn] = useState(true)
@@ -31,7 +144,6 @@ function ActiveGame(){
     const [playerState, setPlayerState] = useState(players)
     const [startingCard, setStartingCard] = useState([])
 
-//     
     const [completeDeck, setCompleteDeck] = useState([])
     const [drawingDeckState, setDrawingDeckState] = useState([])
     
@@ -55,11 +167,10 @@ function ActiveGame(){
         .then(res => res.json())
         .then(data => {setCompleteDeck(data)
                         setDrawingDeckState(data)    
-           
         })
     }, [])
 
-   function startingTheGame(){
+    function startingTheGame(){
     
         const startingCards = drawingDeckState.filter(eachCard=>{
             if (eachCard.value !== "wild" && eachCard.value !== "draw_4")
@@ -67,17 +178,13 @@ function ActiveGame(){
 
         })
     
-             setGameInProgress(true)
-             const newCard = getARandomCard(startingCards)
-             const deckToDrawFrom = startingCards.indexOf(newCard)
-             console.log("decktoDrawFrom:", deckToDrawFrom)
-             startingCards.splice(deckToDrawFrom, 1)
-             setPlayedCards([newCard])
+            setGameInProgress(true)
+            const newCard = getARandomCard(startingCards)
+            const deckToDrawFrom = startingCards.indexOf(newCard)
+            startingCards.splice(deckToDrawFrom, 1)
+            setPlayedCards([newCard])
             
     }
-
-    console.log("gameinSession:", gameInProgress)
-
 
     function getARandomCard(arrayOfCards){
         const randomIndex = Math.floor(Math.random()* arrayOfCards.length)
@@ -95,9 +202,7 @@ function ActiveGame(){
     function startingCardDeck(){
         drawingDeckState.filter(eachCard=>{
             if (eachCard.value !== "wild" || eachCard.value !== "draw_4")
-            setStartingCard([eachCard])
-            console.log("cards without add 4 and wild", startingCard)
-                
+            setStartingCard([eachCard])                
             
     })}
     
@@ -108,7 +213,6 @@ function ActiveGame(){
             setDrawingDeckState([completeDeck])
         }
 
-
         // Wild Card Logic
 
         function player1WildCard(eachCard){
@@ -116,21 +220,19 @@ function ActiveGame(){
             const cardToDelete = myHandState.find(cardToDelete=>{
                 return eachCard.emblem === cardToDelete.emblem 
             })
-             const deleteSpecificIndex = myHandState.indexOf(cardToDelete)
+            const deleteSpecificIndex = myHandState.indexOf(cardToDelete)
                 myHandState.splice(deleteSpecificIndex, 1)
                 playedCards.unshift(cardToDelete)
-       
         }
-        
+
         function player2WildCard(eachCard){
             setDisplayWildCard(true)
             const cardToDelete = player2HandState.find(cardToDelete=>{
                 return eachCard.emblem === cardToDelete.emblem 
             })
-             const deleteSpecificIndex = player2HandState.indexOf(cardToDelete)
+            const deleteSpecificIndex = player2HandState.indexOf(cardToDelete)
                 player2HandState.splice(deleteSpecificIndex, 1)
                 playedCards.unshift(cardToDelete)
-      
         }
 
         function player3WildCard(eachCard){
@@ -138,7 +240,7 @@ function ActiveGame(){
             const cardToDelete = player3HandState.find(cardToDelete=>{
                 return eachCard.emblem === cardToDelete.emblem 
             })
-             const deleteSpecificIndex = player3HandState.indexOf(cardToDelete)
+            const deleteSpecificIndex = player3HandState.indexOf(cardToDelete)
                 player3HandState.splice(deleteSpecificIndex, 1)
                 playedCards.unshift(cardToDelete)
         }
@@ -148,16 +250,12 @@ function ActiveGame(){
             const cardToDelete = player4HandState.find(cardToDelete=>{
                 return eachCard.emblem === cardToDelete.emblem 
             })
-             const deleteSpecificIndex = player4HandState.indexOf(cardToDelete)
+            const deleteSpecificIndex = player4HandState.indexOf(cardToDelete)
                 player4HandState.splice(deleteSpecificIndex, 1)
                 playedCards.unshift(cardToDelete)
         
         }
 
-
-
-
-    
     function draw4WildPlayer1(card){
         setDisplayWildCard(true)
         const Card1=getARandomCard(drawingDeckState)
@@ -167,19 +265,19 @@ function ActiveGame(){
         const cardToDelete = myHandState.find(cardToDelete=>{
             return card.emblem === cardToDelete.emblem 
         })
-         const deleteSpecificIndex = myHandState.indexOf(cardToDelete)
+        const deleteSpecificIndex = myHandState.indexOf(cardToDelete)
             myHandState.splice(deleteSpecificIndex, 1)
             playedCards.unshift(cardToDelete)
         
-         if ("player_1" === playerTurn && clockWise === true){
+            if ("player_1" === playerTurn && clockWise === true){
             
-            setPlayer2HandState([Card1, Card2, Card3, Card4, ...player2HandState])
-            return}
+                setPlayer2HandState([Card1, Card2, Card3, Card4, ...player2HandState])
+                return}
         
-        if ("player_1" === playerTurn && clockWise === false){
+            if ("player_1" === playerTurn && clockWise === false){
             
-            setPlayer4HandState ([Card1, Card2, Card3, Card4, ...player4HandState])
-            return}
+                setPlayer4HandState ([Card1, Card2, Card3, Card4, ...player4HandState])
+                return}
     }
 
     function draw4WildPlayer2(card){
@@ -188,20 +286,19 @@ function ActiveGame(){
         const Card2=getARandomCard(drawingDeckState)
         const Card3=getARandomCard(drawingDeckState)
         const Card4=getARandomCard(drawingDeckState)
-         
-   
+
         const cardToDelete = player2HandState.find(cardToDelete=>{
             return card.emblem === cardToDelete.emblem 
         })
-         const deleteSpecificIndex = player2HandState.indexOf(cardToDelete)
+        const deleteSpecificIndex = player2HandState.indexOf(cardToDelete)
             player2HandState.splice(deleteSpecificIndex, 1)
             playedCards.unshift(cardToDelete) 
         
-         if ("player_2" === playerTurn && clockWise === true){
+            if ("player_2" === playerTurn && clockWise === true){
             
-            setPlayer3HandState([Card1, Card2, Card3, Card4, ...player3HandState])
+                setPlayer3HandState([Card1, Card2, Card3, Card4, ...player3HandState])
 
-            return}
+                return}
         if ("player_2" === playerTurn && clockWise === false){
             
             setMyHandState ([Card1, Card2, Card3, Card4, ...myHandState])
@@ -218,11 +315,11 @@ function ActiveGame(){
         const cardToDelete = player3HandState.find(cardToDelete=>{
             return card.emblem === cardToDelete.emblem 
         })
-         const deleteSpecificIndex = player3HandState.indexOf(cardToDelete)
+        const deleteSpecificIndex = player3HandState.indexOf(cardToDelete)
             player3HandState.splice(deleteSpecificIndex, 1)
             playedCards.unshift(cardToDelete)
         
-         if ("player_3" === playerTurn && clockWise === true){
+        if ("player_3" === playerTurn && clockWise === true){
             
             setPlayer4HandState([Card1, Card2, Card3, Card4, ...player4HandState])
             return}
@@ -242,11 +339,11 @@ function ActiveGame(){
         const cardToDelete = player4HandState.find(cardToDelete=>{
             return card.emblem === cardToDelete.emblem 
         })
-         const deleteSpecificIndex = player4HandState.indexOf(cardToDelete)
+        const deleteSpecificIndex = player4HandState.indexOf(cardToDelete)
             player4HandState.splice(deleteSpecificIndex, 1)
             playedCards.unshift(cardToDelete)
         
-         if ("player_4" === playerTurn && clockWise === true){
+        if ("player_4" === playerTurn && clockWise === true){
             
             setMyHandState([Card1, Card2, Card3, Card4, ...myHandState])
             return}
@@ -255,20 +352,18 @@ function ActiveGame(){
             setPlayer3HandState ([Card1, Card2, Card3, Card4, ...player3HandState])
             return}
     }
-        
-    
+
     function StartingSevenCards(){ 
-     const card1 = getARandomCard(completeDeck)
-     const card2 = getARandomCard(completeDeck)
-     const card3 = getARandomCard(completeDeck)
-     const card4 = getARandomCard(completeDeck)
-     const card5 = getARandomCard(completeDeck)
-     const card6 = getARandomCard(completeDeck)
-     const card7 = getARandomCard(completeDeck)
+    const card1 = getARandomCard(completeDeck)
+    const card2 = getARandomCard(completeDeck)
+    const card3 = getARandomCard(completeDeck)
+    const card4 = getARandomCard(completeDeck)
+    const card5 = getARandomCard(completeDeck)
+    const card6 = getARandomCard(completeDeck)
+    const card7 = getARandomCard(completeDeck)
     
-     return([card1, card2, card3, card4, card5, card6, card7])     
+    return([card1, card2, card3, card4, card5, card6, card7])     
     }
-   
 
     function startingHands(){
         setMyHandState(StartingSevenCards)
@@ -278,8 +373,6 @@ function ActiveGame(){
 
         setDisplayCard(true)  
     }
-
-
 
     function addsCardToHand(){
         if (drawingDeckState < 70){ 
@@ -303,12 +396,6 @@ function ActiveGame(){
         else if ("player_4" === playerTurn)
             return setPlayer4HandState([newCard, ...player4HandState])
     }
-    
-
-
-    console.log("PLAYER TURN:", playerTurn)
-    console.log("played cards pile:", playedCards)
-    
 
     // Player Turn Logic & Card Logic for number cards
 
@@ -321,7 +408,7 @@ function ActiveGame(){
         
         const cardEmblem = lastCardPlayed.emblem.split("_")[0]
         const cardValue = lastCardPlayed.emblem.split("_")[1]
-       
+
         const newCardEmblem = card.emblem.split("_")[0]
         const newCardValue = card.emblem.split("_")[1]
         if (cardEmblem === newCardEmblem || cardValue === newCardValue){
@@ -331,11 +418,9 @@ function ActiveGame(){
         const cardToDelete = myHandState.find(cardToDelete=>{
             return card.emblem === cardToDelete.emblem 
         })
-         const deleteSpecificIndex = myHandState.indexOf(cardToDelete)
+        const deleteSpecificIndex = myHandState.indexOf(cardToDelete)
             myHandState.splice(deleteSpecificIndex, 1)
             playedCards.unshift(cardToDelete)
-            //  the delete and unshift logic needs to go inside of puttingDownCardP1()
-            //  if all the conditions of the function are met then it splices and adds to played cards array
 
         setInitialTurn(false)
         if ("player_1" === playerTurn && clockWise === true)
@@ -343,15 +428,14 @@ function ActiveGame(){
         else if ("player_1" ===playerTurn && clockWise === false)
             return setPlayerTurn("player_4")
         
-        }else alert("illegal move")} }
+        }else alert("illegal move")} 
+    }
     
-    
-        function player2Turn(card){
+    function player2Turn(card){
             const lastCardPlayed = playedCards[0]
                 if (typeof(card) === "undefined")
                 {lastCardPlayed = playedCards[1]}
             if (lastCardPlayed) {
-           
             
             const cardEmblem = lastCardPlayed.emblem.split("_")[0]
             const cardValue = lastCardPlayed.emblem.split("_")[1]
@@ -363,11 +447,11 @@ function ActiveGame(){
         const cardToDelete = player2HandState.find(cardToDelete=>{
             return card.emblem === cardToDelete.emblem 
         })
-         const deleteSpecificIndex = player2HandState.indexOf(cardToDelete)
+        const deleteSpecificIndex = player2HandState.indexOf(cardToDelete)
             player2HandState.splice(deleteSpecificIndex, 1)
             playedCards.unshift(cardToDelete)
-       
-       if ("player_2" === playerTurn && clockWise === true)
+
+        if ("player_2" === playerTurn && clockWise === true)
             return setPlayerTurn("player_3") 
         else if ("player_2" === playerTurn && clockWise === false)
             return setPlayerTurn("player_1")
@@ -392,17 +476,18 @@ function ActiveGame(){
         const cardToDelete = player3HandState.find(cardToDelete=>{
             return card.emblem === cardToDelete.emblem 
         })
-         const deleteSpecificIndex = player3HandState.indexOf(cardToDelete)
+        const deleteSpecificIndex = player3HandState.indexOf(cardToDelete)
             player3HandState.splice(deleteSpecificIndex, 1)
             playedCards.unshift(cardToDelete)
-       
+
         if ("player_3" === playerTurn && clockWise === true)
             return setPlayerTurn("player_4")
         else if ("player_3" === playerTurn && clockWise === false)
             return setPlayerTurn("player_2")
             
         }else alert("Illegal move")} 
-    }      
+    } 
+
     function player4Turn(card){
         const lastCardPlayed = playedCards[0]
             if (typeof(card) === "undefined")
@@ -421,7 +506,7 @@ function ActiveGame(){
                 const cardToDelete = player4HandState.find(cardToDelete=>{
             return card.emblem === cardToDelete.emblem 
         })
-         const deleteSpecificIndex = player4HandState.indexOf(cardToDelete)
+        const deleteSpecificIndex = player4HandState.indexOf(cardToDelete)
             player4HandState.splice(deleteSpecificIndex, 1)
             playedCards.unshift(cardToDelete)
         
@@ -429,10 +514,10 @@ function ActiveGame(){
             return setPlayerTurn("player_1")  
         else if ("player_4" === playerTurn && clockWise === false)
             return setPlayerTurn("player_3")      
-            }else alert("illegal move")} }
+            }else alert("illegal move")}
+    }
 
-// ADD 2 card logic
-
+    // ADD 2 card logic
     function player1Add2(card){
         const lastCardPlayed = playedCards[0]
             if (typeof(card) === "undefined")
@@ -449,7 +534,7 @@ function ActiveGame(){
         const cardToDelete = myHandState.find(cardToDelete=>{
             return card.emblem === cardToDelete.emblem 
         })
-         const deleteSpecificIndex = myHandState.indexOf(cardToDelete)
+        const deleteSpecificIndex = myHandState.indexOf(cardToDelete)
             myHandState.splice(deleteSpecificIndex, 1)
             playedCards.unshift(cardToDelete)
         
@@ -469,7 +554,6 @@ function ActiveGame(){
     }else alert("Illegal Move")} 
     } 
 
-    
     function player2Add2(card){
         const lastCardPlayed = playedCards[0]
             if (typeof(card) === "undefined")
@@ -479,8 +563,6 @@ function ActiveGame(){
         
             const cardEmblem = lastCardPlayed.emblem.split("_")[0]
             const cardValue = lastCardPlayed.emblem.split("_")[1]
-            console.log("CARDEMBLEM:", cardEmblem)
-            console.log("CARDVALUE", cardValue)
             const newCardEmblem = card.emblem.split("_")[0]
             const newCardValue = card.emblem.split("_")[1]
             
@@ -489,7 +571,7 @@ function ActiveGame(){
             const cardToDelete = player2HandState.find(cardToDelete=>{
             return card.emblem === cardToDelete.emblem 
         })
-         const deleteSpecificIndex = player2HandState.indexOf(cardToDelete)
+        const deleteSpecificIndex = player2HandState.indexOf(cardToDelete)
             player2HandState.splice(deleteSpecificIndex, 1)
             playedCards.unshift(cardToDelete)
         
@@ -503,15 +585,11 @@ function ActiveGame(){
             return}
         if ("player_2" === playerTurn && clockWise === false){
             
-             setMyHandState ([card1, card2, ...myHandState])
-             setPlayerTurn("player_1")
-             return}
+            setMyHandState ([card1, card2, ...myHandState])
+            setPlayerTurn("player_1")
+            return}
         }else alert("Illegal Move")} 
     }
-    
-
-
-    
 
     function player3Add2(card){
         
@@ -530,7 +608,7 @@ function ActiveGame(){
         const cardToDelete = player3HandState.find(cardToDelete=>{
             return card.emblem === cardToDelete.emblem 
         })
-         const deleteSpecificIndex = player3HandState.indexOf(cardToDelete)
+        const deleteSpecificIndex = player3HandState.indexOf(cardToDelete)
             player3HandState.splice(deleteSpecificIndex, 1)
             playedCards.unshift(cardToDelete)
         
@@ -538,7 +616,6 @@ function ActiveGame(){
         const card2 = getARandomCard(drawingDeckState)
         
         if ("player_3" === playerTurn && clockWise === true){
-           
             setPlayer4HandState([card1, card2, ...player4HandState])
             setPlayerTurn("player_4")
             return}
@@ -566,7 +643,7 @@ function ActiveGame(){
             return card.emblem === cardToDelete.emblem 
             
         })
-         const deleteSpecificIndex = player4HandState.indexOf(cardToDelete)
+        const deleteSpecificIndex = player4HandState.indexOf(cardToDelete)
             player4HandState.splice(deleteSpecificIndex, 1)
             playedCards.unshift(cardToDelete)
         
@@ -586,15 +663,9 @@ function ActiveGame(){
     
         }else alert("Illegal Move")} 
     }
-    
-    
 
-    console.log("CLOCKWISE:", clockWise)
-    
     /// REVERSE CARD LOGIC 
-
     useEffect(()=>{
-        console.log("useEffect happening")
         if (initialTurn)
             return 
         else if ("player_4" === playerTurn && clockWise === false)
@@ -632,14 +703,13 @@ function ActiveGame(){
         const cardToDelete = myHandState.find(cardToDelete=>{
             return card.emblem === cardToDelete.emblem 
         })
-         const deleteSpecificIndex = myHandState.indexOf(cardToDelete)
+        const deleteSpecificIndex = myHandState.indexOf(cardToDelete)
             myHandState.splice(deleteSpecificIndex, 1)
             playedCards.unshift(cardToDelete)
         
         setClockwise(!clockWise)
         setInitialTurn(false)
         }else alert("illegal move")} }
-    
     
     function player2HandleReverse(card){
         const lastCardPlayed = playedCards[0]
@@ -716,7 +786,7 @@ function ActiveGame(){
         setInitialTurn(false)
         }else alert("illegal move")}}
 
-        
+    // Skip Card Logic
 
     function player1Skip(card){
         const lastCardPlayed = playedCards[0]
@@ -818,86 +888,84 @@ function ActiveGame(){
         const deleteSpecificIndex = player4HandState.indexOf(cardToDelete)
             player4HandState.splice(deleteSpecificIndex, 1)
             playedCards.unshift(cardToDelete)
-       
-         if ("player_4" === playerTurn && clockWise === true)
-           return setPlayerTurn("player_2")
+    
+        if ("player_4" === playerTurn && clockWise === true)
+            return setPlayerTurn("player_2")
         else if ("player_4" === playerTurn && clockWise === false)
             return setPlayerTurn("player_2")
     }else alert("Illegal Move")} 
-    }
-
-    
+    }    
 
     return(
         <Container>
-            <h3> It's {playerTurn}'s turn </h3> 
-                <button className="game-buttons" onClick={startingTheGame}>Start Game</button>
-                <button className="game-buttons" onClick={startingHands}> Distribute First Hand </button>
-        
-            
-                    
-                        <My_Hand 
-                        playerTurn={playerTurn}
-                        player1WildCard={player1WildCard}
-                        completeDeck={completeDeck}
-                        displayCard={displayCard} 
-                        player1Turn={player1Turn} 
-                        player1Skip={player1Skip} 
-                        player1HandleReverse={player1HandleReverse} 
-                        myHandState={myHandState}
-                        player1Add2={player1Add2}
-                        draw4WildPlayer1={draw4WildPlayer1}
-                        />
-                    
-        
+
+                    <h3> It's {playerTurn}'s turn </h3> 
+            <div className="game-buttons"> 
+                <button onClick={startingTheGame}>Start Game</button>
+                <button onClick={startingHands}> Distribute Hands </button>
+            </div>
             
 
-                    
-                        <Other_Player2 
-                        playerTurn={playerTurn}
-                        player2WildCard={player2WildCard}
-                        displayCard={displayCard} 
-                        completeDeck={completeDeck}
-                        player2Turn={player2Turn} 
-                        player2Skip={player2Skip} 
-                        player2HandleReverse={player2HandleReverse} 
-                        player2HandState={player2HandState}
-                        player2Add2={player2Add2}
-                        draw4WildPlayer2={draw4WildPlayer2}/>
-                    
-                    <div className="card_Decks"> 
-                    <h6 > Played Cards</h6>
-                        <PlayedCardPile 
-                        playedCardsState={playedCards} 
-                        displayCard={displayCard} 
-                        completeDeck={completeDeck}/>
+            <div className="top-hands"> 
+                <div className="player1"> 
+                    <My_Hand 
+                    playerTurn={playerTurn}
+                    player1WildCard={player1WildCard}
+                    completeDeck={completeDeck}
+                    displayCard={displayCard} 
+                    player1Turn={player1Turn} 
+                    player1Skip={player1Skip} 
+                    player1HandleReverse={player1HandleReverse} 
+                    myHandState={myHandState}
+                    player1Add2={player1Add2}
+                    draw4WildPlayer1={draw4WildPlayer1}
+                />
+                </div>
+
+                <div className="player2"> 
+                    <Other_Player2 
+                    playerTurn={playerTurn}
+                    player2WildCard={player2WildCard}
+                    displayCard={displayCard} 
+                    completeDeck={completeDeck}
+                    player2Turn={player2Turn} 
+                    player2Skip={player2Skip} 
+                    player2HandleReverse={player2HandleReverse} 
+                    player2HandState={player2HandState}
+                    player2Add2={player2Add2}
+                    draw4WildPlayer2={draw4WildPlayer2}/>
+                    </div>
+            </div>
+
+                <div className="deck-elements"> 
+                    {clockWise? 
+                        <img  id="turn-img" className="clockwise-turn-direction" src={turnDirection} alt="turn arrows" />
+                    :
+                        <img  id="turn-img" className="counter-turn-direction" src={counterDirection} alt="turn arrows" />
+                    }
+
+                    <div className="deck-titles"> 
+                        <h6> Played Deck </h6>
+                        <h6> Drawing Deck</h6>
+                    </div>
+                    <div className="decks">
+                        <div className="piles">
+                            <PlayedCardPile 
+                            playedCardsState={playedCards} 
+                            displayCard={displayCard} 
+                            completeDeck={completeDeck}
+                            />
+                        </div>
                         {displayWildCard? <WildCardPopUp playerTurn={playerTurn} setPlayerTurn={setPlayerTurn} clockWise={clockWise} playedCardsState={playedCards} displayWildCard={setDisplayWildCard}/> : null}
-
-
-                    <div>
-                        <img className="game-buttons" onClick={ addsCardToHand} src={backOfCard} alt="the back the cards" height={100} width={75}/>
+                        <div className="piles"> 
+                            <img onClick={ addsCardToHand} src={backOfCard} alt="the back the cards" height={100} width={75}/>
+                        </div>
                     </div>
-                    </div>
+                </div>
 
-
-
-                    
-                
-
-                        <Other_Player3 
-                        playerTurn={playerTurn}
-                        player3WildCard={player3WildCard}
-                        displayCard={displayCard} 
-                        completeDeck={completeDeck}
-                        player3Turn={player3Turn} 
-                        player3Skip={player3Skip} 
-                        player3HandleReverse={player3HandleReverse} 
-                        player3HandState={player3HandState}
-                        player3Add2={player3Add2}
-                        draw4WildPlayer3={draw4WildPlayer3}/>
-            
-                
-                    <Other_Player4 
+            <div className="bottom-hands">
+            <div className='player4'>
+                <Other_Player4
                     playerTurn={playerTurn}
                     player4WildCard={player4WildCard}
                     displayCard={displayCard} 
@@ -907,7 +975,25 @@ function ActiveGame(){
                     player4HandleReverse={player4HandleReverse}
                     player4HandState={player4HandState}
                     player4Add2={player4Add2} 
-                    draw4WildPlayer4={draw4WildPlayer4}/>
+                    draw4WildPlayer4={draw4WildPlayer4}
+                />
+                </div> 
+                
+                <div className='player3'>
+                <Other_Player3
+                    playerTurn={playerTurn}
+                    player3WildCard={player3WildCard}
+                    displayCard={displayCard} 
+                    completeDeck={completeDeck}
+                    player3Turn={player3Turn} 
+                    player3Skip={player3Skip} 
+                    player3HandleReverse={player3HandleReverse} 
+                    player3HandState={player3HandState}
+                    player3Add2={player3Add2}
+                    draw4WildPlayer3={draw4WildPlayer3}
+                />
+                </div>
+            </div>
 
             <StyledLink to="/"> Exit Game </StyledLink>
         </Container>
